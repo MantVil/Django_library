@@ -8,9 +8,9 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
-class Author(model.Model):
-    first_name = models.CharField("first name", max_lenght=50)
-    last_name = models.CharField("Last name", max_lenght=50)
+class Author(models.Model):
+    first_name = models.CharField("first name", max_length=50)
+    last_name = models.CharField("Last name", max_length=50)
 
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
