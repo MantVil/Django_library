@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 
@@ -28,3 +29,23 @@ class Book(models.Model):
 
     def __str__(self) -> str:
         return f'{self.author} {self.title}'
+
+class BookInstance(models.Model):
+    unique_id = models.UUIDField('unique ID', default = uuid.uuid4, editable = False)
+    book = models.ForeignKey(Book, verbose_name="book", on_delete =models.CASCADE)
+    due_back = models.DateField('due back', null=True, blank=True)
+
+    LOAN_STATUS = (
+        ('m', "managed"),
+        ('t', "taken"),
+        ('a', "available"),
+        ('r', "reserved"),
+    )
+    
+    status = models.CharField("status", max_length=1, choices= LOAN_STATUS, default='m')
+
+    def __str__(self) -> str:
+        return f"{self.unique_id} {self.book.title}"
+    
+    class Meta:
+        ordering = ['due_back']
