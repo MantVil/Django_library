@@ -18,3 +18,13 @@ class Author(models.Model):
     class Meta:
         ordering =['last_name', 'first_name']
     
+class Book(models.Model):
+    title = models.CharField("title", max_length=255)
+    summary = models.TextField('summary')
+    isbn = models.CharField("ISBN", max_length = 13, null=True, blank=True, 
+        help_text='13 Symbols <a href="https://www.isbn-international.org/content/what-isbn">ISBN code</a>')
+    author = models.ForeignKey(Author, on_delete =models.SET_NULL, null=True, blank=True)
+    genre = models.ManyToManyField(Genre, help_text="Choose genre(s) for this book", verbose_name='genre(s)')
+
+    def __str__(self) -> str:
+        return f'{self.author} {self.title}'
